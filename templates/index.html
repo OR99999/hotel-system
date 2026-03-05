@@ -35,7 +35,6 @@
             font-family: {% if lang == 'ar' %}'Cairo',{% endif %} -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
-        /* RTL Support */
         [dir="rtl"] .ms-auto {
             margin-right: auto !important;
             margin-left: 0 !important;
@@ -50,13 +49,11 @@
             float: left !important;
         }
         
-        /* Main Container */
         .main-container {
             max-width: 1400px;
             margin: 0 auto;
         }
         
-        /* Cards */
         .hotel-card {
             background: white;
             border-radius: 20px;
@@ -72,7 +69,6 @@
             box-shadow: 0 30px 50px rgba(0,0,0,0.3);
         }
         
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -112,7 +108,6 @@
             opacity: 0.9;
         }
         
-        /* Time Info */
         .time-info {
             background: rgba(255, 255, 255, 0.15);
             border-radius: 50px;
@@ -129,7 +124,6 @@
             color: var(--accent-color);
         }
         
-        /* Language Selector */
         .language-selector {
             position: fixed;
             top: 20px;
@@ -159,7 +153,6 @@
             transform: scale(1.2);
         }
         
-        /* Admin Button */
         .admin-button {
             position: fixed;
             bottom: 30px;
@@ -193,7 +186,6 @@
             color: white;
         }
         
-        /* Alerts */
         .alert-container {
             position: fixed;
             top: 20px;
@@ -211,6 +203,53 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             margin-bottom: 10px;
             animation: slideIn 0.3s ease;
+            border-right: 5px solid transparent;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+        }
+        
+        .alert-success {
+            border-right-color: var(--success-color);
+        }
+        
+        .alert-danger {
+            border-right-color: var(--danger-color);
+        }
+        
+        .alert-warning {
+            border-right-color: var(--warning-color);
+        }
+        
+        .alert-info {
+            border-right-color: #17a2b8;
+        }
+        
+        .alert-icon {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        
+        .alert-success .alert-icon {
+            background: var(--success-color);
+        }
+        
+        .alert-danger .alert-icon {
+            background: var(--danger-color);
+        }
+        
+        .alert-warning .alert-icon {
+            background: var(--warning-color);
+        }
+        
+        .alert-info .alert-icon {
+            background: #17a2b8;
         }
         
         @keyframes slideIn {
@@ -224,7 +263,6 @@
             }
         }
         
-        /* Form Styles */
         .form-group {
             margin-bottom: 20px;
         }
@@ -275,7 +313,22 @@
             background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
         }
         
-        /* Admin Panel */
+        .contact-info {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid var(--accent-color);
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 25px;
+            margin: 0 10px;
+        }
+        
         .admin-panel {
             background: white;
             border-radius: 20px;
@@ -306,7 +359,118 @@
             font-size: 14px;
         }
         
-        /* Tables */
+        .archive-stats {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .archive-stat-badge {
+            background: #ffc107;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0 5px;
+            display: inline-block;
+        }
+        
+        .search-container {
+            margin: 20px 0;
+        }
+        
+        .search-input-group {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+        
+        .search-input-group .input-group-text {
+            background: white;
+            border: none;
+            border-radius: 50px 0 0 50px;
+        }
+        
+        .search-input-group .form-control {
+            border: none;
+            padding: 15px;
+            font-size: 1rem;
+        }
+        
+        .search-input-group .btn-search {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 0 50px 50px 0;
+            padding: 0 25px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .search-input-group .btn-search:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+        
+        .btn-group {
+            background: white;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn-group .btn-outline-primary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: white;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin: 2px;
+            border-radius: 50px !important;
+        }
+        
+        .btn-group .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+        
+        .btn-group .btn-check:checked + .btn-outline-primary {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+        }
+        
+        .btn-group .btn-outline-primary:first-child,
+        .btn-group .btn-outline-primary:last-child {
+            border-radius: 50px !important;
+        }
+        
+        [dir="rtl"] .btn-group {
+            direction: rtl;
+        }
+        
+        [dir="rtl"] .btn-group .btn-outline-primary:first-child,
+        [dir="rtl"] .btn-group .btn-outline-primary:last-child {
+            border-radius: 50px !important;
+        }
+        
+        .search-stats {
+            margin: 10px 0;
+        }
+        
+        .search-stats .alert {
+            border-radius: 10px;
+            margin-bottom: 0;
+        }
+        
         .table-responsive {
             overflow-x: auto;
         }
@@ -334,7 +498,17 @@
             background: #f8f9fa;
         }
         
-        /* Room Select in Table */
+        .available-room-row {
+            background: #e8f5e9 !important;
+            transition: all 0.3s;
+        }
+        
+        .available-room-row:hover {
+            background: #c8e6c9 !important;
+            transform: scale(1.01);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
         .room-select {
             width: 100px;
             padding: 5px;
@@ -348,7 +522,6 @@
             outline: none;
         }
         
-        /* Special Requests Tooltip */
         .special-requests-icon {
             color: var(--accent-color);
             cursor: help;
@@ -375,7 +548,6 @@
             margin-bottom: 5px;
         }
         
-        /* Status Badges */
         .badge-pending {
             background: var(--warning-color);
             color: #000;
@@ -406,7 +578,39 @@
             display: inline-block;
         }
         
-        /* Action Buttons */
+        .badge-departed {
+            background: #17a2b8;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .badge-available {
+            background: var(--success-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+            }
+        }
+        
         .action-btn {
             width: 32px;
             height: 32px;
@@ -438,7 +642,6 @@
             background: var(--accent-color);
         }
         
-        /* Print Invoice Styles */
         @media print {
             body * {
                 visibility: hidden;
@@ -459,7 +662,6 @@
             }
         }
         
-        /* Rooms Grid */
         .rooms-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -528,7 +730,6 @@
             margin-{% if lang == 'ar' %}left{% else %}right{% endif %}: 8px;
         }
         
-        /* Modal */
         .modal-content {
             border-radius: 20px;
             border: none;
@@ -549,7 +750,6 @@
             padding: 30px;
         }
         
-        /* Tabs */
         .nav-tabs {
             border-bottom: 2px solid #f0f0f0;
             margin-bottom: 20px;
@@ -575,7 +775,6 @@
             color: white;
         }
         
-        /* Welcome Section */
         .welcome-section {
             text-align: center;
             color: white;
@@ -593,10 +792,24 @@
             opacity: 0.9;
         }
         
-        /* Responsive */
+        .no-results {
+            padding: 50px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .no-results i {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        
         @media (max-width: 992px) {
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            .btn-group {
+                flex-wrap: wrap;
             }
         }
         
@@ -604,52 +817,58 @@
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
             .admin-header {
                 flex-direction: column;
                 gap: 15px;
             }
-            
             .admin-stats {
                 flex-wrap: wrap;
             }
-            
             .rooms-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
             .welcome-title {
                 font-size: 28px;
             }
-            
             .admin-table {
                 font-size: 14px;
             }
-            
             .action-btn {
                 width: 28px;
                 height: 28px;
                 font-size: 12px;
             }
+            .btn-group .btn-outline-primary {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
         }
         
         @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
             .rooms-grid {
                 grid-template-columns: 1fr;
             }
-            
             .hotel-card {
                 padding: 20px;
             }
-            
             .admin-table {
                 font-size: 12px;
             }
-            
             .action-btn {
                 width: 24px;
                 height: 24px;
                 font-size: 10px;
+            }
+            .contact-item {
+                display: block;
+                margin: 10px 0;
+            }
+            .btn-group .btn-outline-primary {
+                padding: 4px 8px;
+                font-size: 12px;
             }
         }
     </style>
@@ -661,7 +880,10 @@
             {% if messages %}
                 {% for category, message in messages %}
                     <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
+                        <span class="alert-icon">
+                            {% if category == 'success' %}✓{% elif category == 'danger' %}✗{% elif category == 'warning' %}⚠{% else %}ℹ{% endif %}
+                        </span>
+                        <strong>{{ message }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
@@ -670,11 +892,11 @@
     </div>
 
     <!-- أيقونات اللغات -->
-<div class="language-selector">
-    <a href="/set_language/en" class="flag-link {% if lang == 'en' %}active{% endif %}" title="English">🇺🇸</a>
-    <a href="/set_language/fr" class="flag-link {% if lang == 'fr' %}active{% endif %}" title="Français">🇫🇷</a>
-    <a href="/set_language/ar" class="flag-link {% if lang == 'ar' %}active{% endif %}" title="العربية">🇲🇦</a>
-</div>
+    <div class="language-selector">
+        <a href="/set_language/en" class="flag-link {% if lang == 'en' %}active{% endif %}" title="English">🇺🇸</a>
+        <a href="/set_language/fr" class="flag-link {% if lang == 'fr' %}active{% endif %}" title="Français">🇫🇷</a>
+        <a href="/set_language/ar" class="flag-link {% if lang == 'ar' %}active{% endif %}" title="العربية">🇲🇦</a>
+    </div>
 
     <!-- زر الإدارة -->
     <div class="admin-button">
@@ -697,6 +919,16 @@
             <h1 class="welcome-title">{{ t.welcome }}</h1>
             <p class="welcome-subtitle">{{ t.luxury_stay }}</p>
         </div>
+        <!-- 5 نجوم -->
+<div class="text-center mb-4">
+    <span class="stars-container">
+        <i class="fas fa-star" style="color: #FFD700; font-size: 24px; margin: 0 3px;"></i>
+        <i class="fas fa-star" style="color: #FFD700; font-size: 24px; margin: 0 3px;"></i>
+        <i class="fas fa-star" style="color: #FFD700; font-size: 24px; margin: 0 3px;"></i>
+        <i class="fas fa-star" style="color: #FFD700; font-size: 24px; margin: 0 3px;"></i>
+        <i class="fas fa-star" style="color: #FFD700; font-size: 24px; margin: 0 3px;"></i>
+    </span>
+</div>
 
         <!-- معلومات الوقت -->
         <div class="time-info">
@@ -740,27 +972,21 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label"><i class="fas fa-user"></i> {{ t.name }} <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="name" required 
-                                   placeholder="{{ t.name }}">
+                            <input type="text" class="form-control" name="name" required placeholder="{{ t.name }}">
                         </div>
                     </div>
-                    
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label"><i class="fas fa-phone"></i> {{ t.phone }} <span class="text-danger">*</span></label>
-                            <input type="tel" class="form-control" name="phone" required 
-                                   placeholder="06XXXXXXXX">
+                            <input type="tel" class="form-control" name="phone" required placeholder="06XXXXXXXX">
                         </div>
                     </div>
-                    
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label"><i class="fas fa-envelope"></i> {{ t.email }}</label>
-                            <input type="email" class="form-control" name="email" 
-                                   placeholder="example@email.com">
+                            <input type="email" class="form-control" name="email" placeholder="example@email.com">
                         </div>
                     </div>
-                    
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label"><i class="fas fa-bed"></i> {{ t.room_type }} <span class="text-danger">*</span></label>
@@ -773,50 +999,59 @@
                             </select>
                         </div>
                     </div>
-                    
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label"><i class="fas fa-calendar-plus"></i> {{ t.check_in }} <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" name="check_in" id="checkIn"
-                                   min="{{ now }}" required>
+                            <input type="date" class="form-control" name="check_in" id="checkIn" min="{{ now }}" required>
                         </div>
                     </div>
-                    
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label"><i class="fas fa-calendar-minus"></i> {{ t.check_out }} <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" name="check_out" id="checkOut"
-                                   min="{{ now }}" required>
+                            <input type="date" class="form-control" name="check_out" id="checkOut" min="{{ now }}" required>
                         </div>
                     </div>
-                    
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label"><i class="fas fa-users"></i> {{ t.guests }} <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="guests" id="guests"
-                                   min="1" max="20" value="1" required>
+                            <input type="number" class="form-control" name="guests" id="guests" min="1" max="20" value="1" required>
                             <small class="text-muted" id="guestLimit"></small>
                         </div>
                     </div>
-                    
                     <div class="col-12">
                         <div class="form-group">
                             <label class="form-label"><i class="fas fa-comment"></i> {{ t.special_requests }}</label>
-                            <textarea class="form-control" name="special_requests" rows="3" 
-                                      placeholder="{{ t.special_requests }}"></textarea>
+                            <textarea class="form-control" name="special_requests" rows="3" placeholder="{{ t.special_requests }}"></textarea>
                         </div>
                     </div>
-                    
                     <div class="col-12">
                         <button type="submit" class="btn-book">
                             <i class="fas fa-calendar-check me-2"></i>{{ t.book }}
                         </button>
                     </div>
+                    <div class="col-12 mt-4">
+                        <div class="contact-info text-center">
+                            <p class="mb-2" style="color: var(--primary-color); font-weight: bold;">
+                                <i class="fas fa-info-circle me-2" style="color: var(--accent-color);"></i>
+                                {{ t.contact }}:
+                            </p>
+                            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                                <span class="contact-item">
+                                    <i class="fas fa-phone-alt me-2" style="color: var(--accent-color);"></i>
+                                    <strong>0633667780</strong>
+                                </span>
+                                <span class="contact-item">
+                                    <i class="fas fa-envelope me-2" style="color: var(--accent-color);"></i>
+                                    <strong>hotel.maroc@gmail.com</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
 
-        <!-- لوحة الإدارة (تظهر فقط للمدير) -->
+        <!-- لوحة الإدارة -->
         {% if admin_logged_in %}
         <div class="admin-panel">
             <div class="admin-header">
@@ -824,9 +1059,7 @@
                     <i class="fas fa-crown me-2" style="color: #ffc107;"></i>{{ t.admin_panel }}
                 </h3>
                 <div class="admin-stats">
-                    <span class="admin-stat-badge">
-                        <i class="fas fa-calendar-check me-1"></i>{{ t.total_reservations }}: {{ reservations|length }}
-                    </span>
+                    <span class="admin-stat-badge"><i class="fas fa-calendar-check me-1"></i>{{ t.total_reservations }}: {{ reservations|length }}</span>
                     <span class="admin-stat-badge" style="background: linear-gradient(135deg, #28a745, #20c997);">
                         <i class="fas fa-coins me-1"></i>{{ t.total_revenue }}: {{ "%.0f"|format(total_revenue) }} {{ t.currency }}
                     </span>
@@ -836,132 +1069,143 @@
                 </div>
             </div>
 
+            <!-- شريط البحث -->
+            <div class="search-container">
+                <div class="row">
+                    <div class="col-md-10 mx-auto">
+                        <div class="input-group search-input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-search" style="color: var(--accent-color);"></i></span>
+                            <input type="text" id="searchInput" class="form-control" placeholder="{{ t.search_placeholder }}">
+                            <button class="btn btn-search" type="button" id="searchButton"><i class="fas fa-search me-2"></i>{{ t.search }}</button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <div class="btn-group" role="group">
+                                <input type="radio" class="btn-check" name="searchType" id="typeAll" value="all" checked autocomplete="off">
+                                <label class="btn btn-outline-primary" for="typeAll">🔍 {{ t.search_all }}</label>
+                                <input type="radio" class="btn-check" name="searchType" id="typeName" value="name" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="typeName">👤 {{ t.search_name }}</label>
+                                <input type="radio" class="btn-check" name="searchType" id="typePhone" value="phone" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="typePhone">📞 {{ t.search_phone }}</label>
+                                <input type="radio" class="btn-check" name="searchType" id="typeRoom" value="room" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="typeRoom">🏠 {{ t.search_room }}</label>
+                                <input type="radio" class="btn-check" name="searchType" id="typeArchive" value="archive" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="typeArchive">📁 {{ t.archive }}</label>
+                            </div>
+                        </div>
+                        <div class="text-center mt-2">
+                            <small style="color: #666;"><i class="fas fa-info-circle me-1" style="color: var(--accent-color);"></i>{{ t.type_at_least_one }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- إحصائيات البحث -->
+            <div class="search-stats" id="searchStats" style="display: none;">
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-filter me-2"></i>{{ t.search_results }}: <strong id="resultCount">0</strong> {{ t.results_found }}
+                    <span id="searchTerm"></span>
+                    <button class="btn btn-sm btn-outline-secondary ms-3" onclick="resetSearch()"><i class="fas fa-times me-1"></i>{{ t.clear_search }}</button>
+                </div>
+            </div>
+
+            <!-- إحصائيات الأرشيف -->
+            <div class="archive-stats" id="archiveStats" style="display: none;">
+                <div class="text-center">
+                    <span class="archive-stat-badge"><i class="fas fa-archive me-1"></i>{{ t.total_archive }}: {{ archive_stats.total }}</span>
+                    <span class="archive-stat-badge" style="background: #28a745; color: white;"><i class="fas fa-check-circle me-1"></i>{{ t.departed_count }}: {{ archive_stats.departed }}</span>
+                    <span class="archive-stat-badge" style="background: #dc3545; color: white;"><i class="fas fa-times-circle me-1"></i>{{ t.cancelled_count }}: {{ archive_stats.cancelled }}</span>
+                </div>
+            </div>
+
             <!-- تبويبات الإدارة -->
             <ul class="nav nav-tabs" id="adminTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="reservations-tab" data-bs-toggle="tab" 
-                            data-bs-target="#reservations" type="button" role="tab">
-                        <i class="fas fa-calendar-alt me-2"></i>{{ t.all_reservations }}
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="rooms-tab" data-bs-toggle="tab" 
-                            data-bs-target="#rooms" type="button" role="tab">
-                        <i class="fas fa-bed me-2"></i>{{ t.rooms_management }}
-                    </button>
-                </li>
+                <li class="nav-item"><button class="nav-link active" id="reservations-tab" data-bs-toggle="tab" data-bs-target="#reservations" type="button" role="tab"><i class="fas fa-calendar-alt me-2"></i>{{ t.all_reservations }}</button></li>
+                <li class="nav-item"><button class="nav-link" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms" type="button" role="tab"><i class="fas fa-bed me-2"></i>{{ t.rooms_management }}</button></li>
             </ul>
 
             <!-- محتوى التبويبات -->
             <div class="tab-content">
                 <!-- تبويب الحجوزات -->
                 <div class="tab-pane fade show active" id="reservations" role="tabpanel">
-                    {% if reservations %}
-                    <div class="table-responsive">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>{{ t.id }}</th>
-                                    <th>{{ t.guest }}</th>
-                                    <th>{{ t.phone }}</th>
-                                    <th>{{ t.room }}</th>
-                                    <th>💬</th>
-                                    <th>{{ t.dates }}</th>
-                                    <th>{{ t.total_price }}</th>
-                                    <th>{{ t.status }}</th>
-                                    <th>{{ t.actions }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for r in reservations %}
-                                <tr>
-                                    <td>#{{ r.id }}</td>
-                                    <td><strong>{{ r.guest_name }}</strong></td>
-                                    <td><i class="fas fa-phone-alt me-1" style="color: var(--accent-color);"></i>{{ r.guest_phone }}</td>
-                                    <td>
-                                        <form action="/admin/change_room/{{ r.id }}" method="post" style="display: inline;" onchange="this.submit()">
-                                            <select name="new_room_id" class="room-select">
-                                                {% for room in rooms if room.room_type == r.room.room_type %}
-                                                    <option value="{{ room.id }}" {% if room.id == r.room.id %}selected{% endif %}>
-                                                        {{ room.room_number }}
-                                                    </option>
-                                                {% endfor %}
-                                            </select>
-                                        </form>
-                                        <br>
-                                        <small style="color: #666;">
-                                            {% if r.room.room_type == 'family' %}{{ t.family }}
-                                            {% elif r.room.room_type == 'single' %}{{ t.single }}
-                                            {% elif r.room.room_type == 'event' %}{{ t.event }}
-                                            {% else %}{{ t.double }}
+                    <!-- الحجوزات الحالية -->
+                    <div id="currentReservations">
+                        {% if reservations %}
+                        <div class="table-responsive">
+                            <table class="admin-table" id="reservationsTable">
+                                <thead>
+                                    <tr><th>{{ t.id }}</th><th>{{ t.guest }}</th><th>{{ t.phone }}</th><th>{{ t.room }}</th><th>💬</th><th>{{ t.dates }}</th><th>{{ t.total_price }}</th><th>{{ t.status }}</th><th>{{ t.actions }}</th></tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    {% for r in reservations %}
+                                    <tr class="reservation-row" data-name="{{ r.guest_name|lower }}" data-phone="{{ r.guest_phone }}" data-status="{{ r.status }}">
+                                        <td>#{{ r.id }}</td>
+                                        <td><strong>{{ r.guest_name }}</strong></td>
+                                        <td><i class="fas fa-phone-alt me-1" style="color: var(--accent-color);"></i>{{ r.guest_phone }}</td>
+                                        <td>
+                                            <form action="/admin/change_room/{{ r.id }}" method="post" style="display: inline;" onchange="this.submit()">
+                                                <select name="new_room_id" class="room-select">
+                                                    {% for room in rooms if room.room_type == r.room.room_type %}
+                                                    <option value="{{ room.id }}" {% if room.id == r.room.id %}selected{% endif %}>{{ room.room_number }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </form><br>
+                                            <small style="color: #666;">{% if r.room.room_type == 'family' %}{{ t.family }}{% elif r.room.room_type == 'single' %}{{ t.single }}{% elif r.room.room_type == 'event' %}{{ t.event }}{% else %}{{ t.double }}{% endif %}</small>
+                                        </td>
+                                        <td>{% if r.special_requests %}<span class="special-requests-icon" data-tooltip="{{ r.special_requests }}"><i class="fas fa-comment"></i></span>{% else %}<span style="color: #ccc;">-</span>{% endif %}</td>
+                                        <td>{{ r.check_in_date }}<br><small style="color: #666;">→ {{ r.check_out_date }}</small></td>
+                                        <td><strong>{{ "%.0f"|format(r.total_price) }} {{ t.currency }}</strong></td>
+                                        <td>{% if r.status == 'pending' %}<span class="badge-pending">{{ t.pending }}</span>{% elif r.status == 'confirmed' %}<span class="badge-confirmed">{{ t.confirmed }}</span>{% endif %}</td>
+                                        <td class="no-print">
+                                            {% if r.status == 'pending' %}
+                                            <a href="/admin/confirm/{{ r.id }}" class="text-decoration-none" onclick="return confirm('{% if lang == 'ar' %}تأكيد هذا الحجز؟{% elif lang == 'fr' %}Confirmer cette réservation?{% else %}Confirm this booking?{% endif %}')"><button class="action-btn btn-confirm" title="{{ t.confirm }}"><i class="fas fa-check"></i></button></a>
                                             {% endif %}
-                                        </small>
-                                    </td>
-                                    <td>
-                                        {% if r.special_requests %}
-                                        <span class="special-requests-icon" data-tooltip="{{ r.special_requests }}">
-                                            <i class="fas fa-comment"></i>
-                                        </span>
-                                        {% else %}
-                                        <span style="color: #ccc;">-</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ r.check_in_date }}<br>
-                                        <small style="color: #666;">→ {{ r.check_out_date }}</small>
-                                    </td>
-                                    <td><strong>{{ "%.0f"|format(r.total_price) }} {{ t.currency }}</strong></td>
-                                    <td>
-                                        {% if r.status == 'pending' %}
-                                            <span class="badge-pending">{{ t.pending }}</span>
-                                        {% elif r.status == 'confirmed' %}
-                                            <span class="badge-confirmed">{{ t.confirmed }}</span>
-                                        {% elif r.status == 'cancelled' %}
-                                            <span class="badge-cancelled">{{ t.cancelled }}</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="no-print">
-                                        {% if r.status == 'pending' %}
-                                            <a href="/admin/confirm/{{ r.id }}" class="text-decoration-none" 
-                                               onclick="return confirm('{% if lang == 'ar' %}تأكيد هذا الحجز؟{% elif lang == 'fr' %}Confirmer cette réservation?{% else %}Confirm this booking?{% endif %}')">
-                                                <button class="action-btn btn-confirm" title="{{ t.confirm }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            </a>
-                                        {% endif %}
-                                        {% if r.status != 'cancelled' and r.status != 'confirmed' %}
-                                            <a href="/admin/cancel/{{ r.id }}" class="text-decoration-none"
-                                               onclick="return confirm('{% if lang == 'ar' %}إلغاء هذا الحجز؟{% elif lang == 'fr' %}Annuler cette réservation?{% else %}Cancel this booking?{% endif %}')">
-                                                <button class="action-btn btn-cancel" title="{{ t.cancel }}">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </a>
-                                        {% endif %}
-                                        
-                                        <!-- زر طباعة الفاتورة -->
-                                        <button class="action-btn btn-print" title="{{ t.print }}" 
-                                                onclick="printInvoice('{{ r.guest_name }}', '{{ r.guest_phone }}', '{{ r.room.room_type }}', '{{ r.room.room_number }}', '{{ r.check_in_date }}', '{{ r.check_out_date }}', '{{ r.total_price }}', '{{ t.hotel_name }}', '{{ t.invoice }}', '{{ t.thank_you }}', '{{ t.currency }}', '{{ t.nights }}')">
-                                            <i class="fas fa-print"></i>
-                                        </button>
-                                        
-                                        <a href="/admin/delete/{{ r.id }}" class="text-decoration-none"
-                                           onclick="return confirm('{% if lang == 'ar' %}حذف هذا الحجز؟{% elif lang == 'fr' %}Supprimer cette réservation?{% else %}Delete this booking?{% endif %}')">
-                                            <button class="action-btn btn-delete" title="{{ t.delete }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                                            {% if r.status != 'cancelled' and r.status != 'confirmed' %}
+                                            <a href="/admin/cancel/{{ r.id }}" class="text-decoration-none" onclick="return confirm('{% if lang == 'ar' %}إلغاء هذا الحجز؟{% elif lang == 'fr' %}Annuler cette réservation?{% else %}Cancel this booking?{% endif %}')"><button class="action-btn btn-cancel" title="{{ t.cancel }}"><i class="fas fa-times"></i></button></a>
+                                            {% endif %}
+                                            <button class="action-btn btn-print" title="{{ t.print }}" onclick="printInvoice('{{ r.guest_name }}', '{{ r.guest_phone }}', '{{ r.room.room_type }}', '{{ r.room.room_number }}', '{{ r.check_in_date }}', '{{ r.check_out_date }}', '{{ r.total_price }}', '{{ t.hotel_name }}', '{{ t.invoice }}', '{{ t.thank_you }}', '{{ t.currency }}', '{{ t.nights }}', '{{ lang }}')"><i class="fas fa-print"></i></button>
+                                            <a href="/admin/delete/{{ r.id }}" class="text-decoration-none" onclick="return confirm('{% if lang == 'ar' %}حذف هذا الحجز؟{% elif lang == 'fr' %}Supprimer cette réservation?{% else %}Delete this booking?{% endif %}')"><button class="action-btn btn-delete" title="{{ t.delete }}"><i class="fas fa-trash"></i></button></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info text-center"><i class="fas fa-info-circle me-2"></i>{% if lang == 'ar' %}لا توجد حجوزات حالية{% elif lang == 'fr' %}Aucune réservation en cours{% else %}No current reservations{% endif %}</div>
+                        {% endif %}
                     </div>
-                    {% else %}
-                    <div class="alert alert-info text-center">
-                        <i class="fas fa-info-circle me-2"></i>
-                        {% if lang == 'ar' %}لا توجد حجوزات{% elif lang == 'fr' %}Aucune réservation{% else %}No reservations{% endif %}
+
+                    <!-- حجوزات الأرشيف -->
+                    <div id="archiveReservations" style="display: none;">
+                        {% if archive_reservations %}
+                        <div class="table-responsive">
+                            <table class="admin-table" id="archiveTable">
+                                <thead>
+                                    <tr><th>{{ t.id }}</th><th>{{ t.guest }}</th><th>{{ t.phone }}</th><th>{{ t.room }}</th><th>{{ t.dates }}</th><th>{{ t.total_price }}</th><th>{{ t.status }}</th><th>{{ t.actions }}</th></tr>
+                                </thead>
+                                <tbody id="archiveBody">
+                                    {% for a in archive_reservations %}
+                                    <tr class="archive-row" data-name="{{ a.guest_name|lower }}" data-phone="{{ a.guest_phone }}" data-status="{{ a.status }}">
+                                        <td>#{{ a.original_id }}</td>
+                                        <td><strong>{{ a.guest_name }}</strong></td>
+                                        <td><i class="fas fa-phone-alt me-1" style="color: var(--accent-color);"></i>{{ a.guest_phone }}</td>
+                                        <td><strong>{{ a.room_number }}</strong><br><small style="color: #666;">{% if a.room_type == 'family' %}{{ t.family }}{% elif a.room_type == 'single' %}{{ t.single }}{% elif a.room_type == 'event' %}{{ t.event }}{% else %}{{ t.double }}{% endif %}</small></td>
+                                        <td>{{ a.check_in_date }}<br><small style="color: #666;">→ {{ a.check_out_date }}</small></td>
+                                        <td><strong>{{ "%.0f"|format(a.total_price) }} {{ t.currency }}</strong></td>
+                                        <td>{% if a.status == 'departed' %}<span class="badge-departed">{{ t.departed }}</span>{% elif a.status == 'cancelled' %}<span class="badge-cancelled">{{ t.cancelled }}</span>{% endif %}</td>
+                                        <td class="no-print">
+                                            <button class="action-btn btn-print" title="{{ t.print }}" onclick="printInvoice('{{ a.guest_name }}', '{{ a.guest_phone }}', '{{ a.room_type }}', '{{ a.room_number }}', '{{ a.check_in_date }}', '{{ a.check_out_date }}', '{{ a.total_price }}', '{{ t.hotel_name }}', '{{ t.invoice }}', '{{ t.thank_you }}', '{{ t.currency }}', '{{ t.nights }}', '{{ lang }}')"><i class="fas fa-print"></i></button>
+                                            <a href="/admin/delete_archive/{{ a.id }}" class="text-decoration-none" onclick="return confirm('{% if lang == 'ar' %}حذف هذا الحجز من الأرشيف؟{% elif lang == 'fr' %}Supprimer cette réservation des archives?{% else %}Delete this reservation from archive?{% endif %}')"><button class="action-btn btn-delete" title="{{ t.delete }}"><i class="fas fa-trash"></i></button></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info text-center"><i class="fas fa-info-circle me-2"></i>{% if lang == 'ar' %}لا توجد حجوزات في الأرشيف{% elif lang == 'fr' %}Aucune réservation dans les archives{% else %}No reservations in archive{% endif %}</div>
+                        {% endif %}
                     </div>
-                    {% endif %}
                 </div>
 
                 <!-- تبويب الغرف -->
@@ -974,28 +1218,10 @@
                                 {% if room.is_available %}{{ t.available }}{% else %}{{ t.occupied }}{% endif %}
                             </span>
                             <div class="room-number">غرفة {{ room.room_number }}</div>
-                            <div class="room-detail">
-                                <i class="fas fa-tag"></i>
-                                <strong>
-                                    {% if room.room_type == 'family' %}{{ t.family }}
-                                    {% elif room.room_type == 'single' %}{{ t.single }}
-                                    {% elif room.room_type == 'event' %}{{ t.event }}
-                                    {% else %}{{ t.double }}
-                                    {% endif %}
-                                </strong>
-                            </div>
-                            <div class="room-detail">
-                                <i class="fas fa-users"></i>
-                                {{ t.capacity }}: {{ room.capacity }} {% if lang == 'ar' %}أشخاص{% elif lang == 'fr' %}pers{% else %}persons{% endif %}
-                            </div>
-                            <div class="room-detail">
-                                <i class="fas fa-coins"></i>
-                                {{ t.price_per_night }}: {{ "%.0f"|format(room.price_per_night) }} {{ t.currency }}
-                            </div>
-                            <div class="room-detail">
-                                <i class="fas fa-clock"></i>
-                                12:00 - 12:00
-                            </div>
+                            <div class="room-detail"><i class="fas fa-tag"></i><strong>{% if room.room_type == 'family' %}{{ t.family }}{% elif room.room_type == 'single' %}{{ t.single }}{% elif room.room_type == 'event' %}{{ t.event }}{% else %}{{ t.double }}{% endif %}</strong></div>
+                            <div class="room-detail"><i class="fas fa-users"></i>{{ t.capacity }}: {{ room.capacity }} {% if lang == 'ar' %}أشخاص{% elif lang == 'fr' %}pers{% else %}persons{% endif %}</div>
+                            <div class="room-detail"><i class="fas fa-coins"></i>{{ t.price_per_night }}: {{ "%.0f"|format(room.price_per_night) }} {{ t.currency }}</div>
+                            <div class="room-detail"><i class="fas fa-clock"></i>12:00 - 12:00</div>
                         </div>
                         {% endfor %}
                     </div>
@@ -1010,27 +1236,19 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-lock me-2"></i>
-                        {{ t.admin_login }}
-                    </h5>
+                    <h5 class="modal-title"><i class="fas fa-lock me-2"></i>{{ t.admin_login }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/admin/login" method="post">
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="form-label">{{ t.password }}</label>
-                            <input type="password" name="password" class="form-control" required 
-                                   placeholder="••••••••">
+                            <input type="password" name="password" class="form-control" required placeholder="••••••••">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            {% if lang == 'ar' %}إلغاء{% elif lang == 'fr' %}Annuler{% else %}Cancel{% endif %}
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-sign-in-alt me-2"></i>{{ t.login }}
-                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% if lang == 'ar' %}إلغاء{% elif lang == 'fr' %}Annuler{% else %}Cancel{% endif %}</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt me-2"></i>{{ t.login }}</button>
                     </div>
                 </form>
             </div>
@@ -1047,144 +1265,235 @@
         // تعيين تاريخ اليوم كحد أدنى للتواريخ
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
-            
-            document.querySelectorAll('input[type="date"]').forEach(input => {
-                input.min = today;
-            });
+            document.querySelectorAll('input[type="date"]').forEach(input => input.min = today);
             
             const checkIn = document.querySelector('input[name="check_in"]');
             const checkOut = document.querySelector('input[name="check_out"]');
-            
             if (checkIn && checkOut) {
-                checkIn.addEventListener('change', function() {
-                    checkOut.min = this.value;
-                });
+                checkIn.addEventListener('change', function() { checkOut.min = this.value; });
             }
             
-            setTimeout(function() {
-                document.querySelectorAll('.alert').forEach(alert => {
-                    alert.style.display = 'none';
-                });
-            }, 5000);
-            
-            // تعيين الحد الأقصى لعدد الأشخاص
+            setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.style.display = 'none'), 5000);
             updateMaxGuests();
         });
-        
+
         function updateMaxGuests() {
-            const roomType = document.getElementById('roomType').value;
+            const roomType = document.getElementById('roomType');
             const guestsInput = document.getElementById('guests');
             const guestLimit = document.getElementById('guestLimit');
+            if (!roomType || !guestsInput) return;
             
-            let maxGuests = 20;
-            let typeName = '';
-            
-            switch(roomType) {
-                case 'single':
-                    maxGuests = 1;
-                    typeName = 'فردية';
-                    break;
-                case 'double':
-                    maxGuests = 2;
-                    typeName = 'مزدوجة';
-                    break;
-                case 'family':
-                    maxGuests = 8;
-                    typeName = 'عائلية';
-                    break;
-                case 'event':
-                    maxGuests = 20;
-                    typeName = 'مناسبات';
-                    break;
-            }
-            
+            const limits = { 'single': 1, 'double': 2, 'family': 8, 'event': 20 };
+            const maxGuests = limits[roomType.value] || 20;
             guestsInput.max = maxGuests;
-            if (parseInt(guestsInput.value) > maxGuests) {
-                guestsInput.value = maxGuests;
-            }
-            
-            guestLimit.textContent = `الحد الأقصى: ${maxGuests} أشخاص للغرفة ${typeName}`;
+            if (parseInt(guestsInput.value) > maxGuests) guestsInput.value = maxGuests;
+            if (guestLimit) guestLimit.textContent = `الحد الأقصى: ${maxGuests} أشخاص`;
         }
-        
-        // دالة طباعة الفاتورة
-        function printInvoice(name, phone, roomType, roomNumber, checkIn, checkOut, totalPrice, hotelName, invoiceTitle, thankYou, currency, nights) {
-            const checkInDate = new Date(checkIn);
-            const checkOutDate = new Date(checkOut);
-            const days = Math.round((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+
+        function printInvoice(name, phone, roomType, roomNumber, checkIn, checkOut, totalPrice, hotelName, invoiceTitle, thankYou, currency, nights, lang) {
+            const days = Math.round((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24));
             
-            let roomTypeText = '';
-            switch(roomType) {
-                case 'family':
-                    roomTypeText = 'غرفة عائلية';
-                    break;
-                case 'single':
-                    roomTypeText = 'غرفة فردية';
-                    break;
-                case 'event':
-                    roomTypeText = 'غرفة مناسبات';
-                    break;
-                case 'double':
-                    roomTypeText = 'غرفة مزدوجة';
-                    break;
-            }
+            const texts = {
+                ar: { family: 'غرفة عائلية', single: 'غرفة فردية', event: 'غرفة مناسبات', double: 'غرفة مزدوجة', guest: 'اسم العميل', phone: 'الهاتف', roomType: 'نوع الغرفة', roomNumber: 'رقم الغرفة', checkIn: 'تاريخ الوصول', checkOut: 'تاريخ المغادرة', days: 'عدد الأيام', total: 'السعر الإجمالي', contact: 'للاستفسار والتواصل' },
+                fr: { family: 'Chambre Familiale', single: 'Chambre Simple', event: 'Salle événement', double: 'Chambre Double', guest: 'Nom du client', phone: 'Téléphone', roomType: 'Type de chambre', roomNumber: 'Numéro de chambre', checkIn: "Date d'arrivée", checkOut: 'Date de départ', days: 'Nombre de nuits', total: 'Prix total', contact: 'Contact et renseignements' },
+                en: { family: 'Family Room', single: 'Single Room', event: 'Event Room', double: 'Double Room', guest: 'Guest Name', phone: 'Phone', roomType: 'Room Type', roomNumber: 'Room Number', checkIn: 'Check-in Date', checkOut: 'Check-out Date', days: 'Nights', total: 'Total Price', contact: 'Contact for inquiries' }
+            };
+            
+            const t = texts[lang] || texts.en;
+            const roomTypeMap = { family: t.family, single: t.single, event: t.event, double: t.double };
+            const roomTypeText = roomTypeMap[roomType] || roomType;
+            
+            const dir = lang === 'ar' ? 'rtl' : 'ltr';
+            const fontFamily = lang === 'ar' ? 'Cairo, sans-serif' : 'Arial, sans-serif';
             
             const invoiceContent = `
-                <div style="font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; padding: 40px; max-width: 800px; margin: 0 auto; background: white;">
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <h1 style="color: #1e3c72; margin-bottom: 5px;">🏨 ${hotelName}</h1>
-                        <h3 style="color: #2a5298;">${invoiceTitle}</h3>
+                <div style="font-family: ${fontFamily}; direction: ${dir}; text-align: ${dir === 'rtl' ? 'right' : 'left'}; padding: 40px; max-width: 800px; margin: 0 auto; background: white;">
+                    <div style="text-align: center; margin-bottom: 30px;"><h1 style="color: #1e3c72;">🏨 ${hotelName}</h1><h3 style="color: #2a5298;">${invoiceTitle}</h3></div>
+                    <hr style="border: 1px solid #c9a959;">
+                    <p><strong>👤 ${t.guest}:</strong> ${name}</p>
+                    <p><strong>📞 ${t.phone}:</strong> ${phone}</p>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                        <p><strong>🏠 ${t.roomType}:</strong> ${roomTypeText}</p>
+                        <p><strong>🔢 ${t.roomNumber}:</strong> ${roomNumber}</p>
+                        <p><strong>📅 ${t.checkIn}:</strong> ${checkIn}</p>
+                        <p><strong>📅 ${t.checkOut}:</strong> ${checkOut}</p>
+                        <p><strong>⏱️ ${t.days}:</strong> ${days} ${nights}</p>
                     </div>
-                    
-                    <hr style="border: 1px solid #c9a959; margin: 20px 0;">
-                    
-                    <div style="margin-bottom: 20px;">
-                        <p><strong>👤 اسم العميل:</strong> ${name}</p>
-                        <p><strong>📞 الهاتف:</strong> ${phone}</p>
-                    </div>
-                    
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                        <p><strong>🏠 نوع الغرفة:</strong> ${roomTypeText}</p>
-                        <p><strong>🔢 رقم الغرفة:</strong> ${roomNumber}</p>
-                        <p><strong>📅 تاريخ الوصول:</strong> ${checkIn}</p>
-                        <p><strong>📅 تاريخ المغادرة:</strong> ${checkOut}</p>
-                        <p><strong>⏱️ عدد الأيام:</strong> ${days} ${nights}</p>
-                    </div>
-                    
-                    <div style="text-align: left; font-size: 20px; margin-bottom: 30px;">
-                        <strong>💰 السعر الإجمالي: ${totalPrice} ${currency}</strong>
-                    </div>
-                    
-                    <hr style="border: 1px solid #c9a959; margin: 20px 0;">
-                    
-                    <div style="text-align: center; color: #666;">
-                        <p>${thankYou}</p>
-                    </div>
-                </div>
-            `;
+                    <div style="text-align: ${dir === 'rtl' ? 'left' : 'right'}; font-size: 20px;"><strong>💰 ${t.total}: ${totalPrice} ${currency}</strong></div>
+                    <hr style="border: 1px solid #c9a959;">
+                    <div style="text-align: center;"><p>${thankYou}</p><hr style="border: none; border-top: 1px dashed #c9a959; width: 50%;"><p><i class="fas fa-phone-alt" style="color: #c9a959;"></i> ${t.contact}: <strong>0633667780</strong><br><i class="fas fa-envelope" style="color: #c9a959;"></i> <strong>hotel.maroc@gmail.com</strong></p></div>
+                </div>`;
             
             const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>${invoiceTitle}</title>
-                        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-                        <style>
-                            body { margin: 0; padding: 0; background: #f0f0f0; }
-                            @media print {
-                                body { background: white; }
-                            }
-                        </style>
-                    </head>
-                    <body>${invoiceContent}</body>
-                </html>
-            `);
+            printWindow.document.write(`<html><head><title>${invoiceTitle}</title><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"><style>body{margin:0;padding:0;background:#f0f0f0;}@media print{body{background:white;}}</style></head><body>${invoiceContent}</body></html>`);
             printWindow.document.close();
             printWindow.focus();
             printWindow.print();
             printWindow.close();
         }
+
+        // نظام البحث
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const searchStats = document.getElementById('searchStats');
+            const resultCount = document.getElementById('resultCount');
+            const archiveStats = document.getElementById('archiveStats');
+            const currentReservations = document.getElementById('currentReservations');
+            const archiveReservations = document.getElementById('archiveReservations');
+            const currentLang = '{{ lang }}';
+            
+            if (!searchInput || !searchButton) return;
+            
+            const rows = document.querySelectorAll('.reservation-row');
+            const archiveRows = document.querySelectorAll('.archive-row');
+            if (archiveStats) archiveStats.style.display = 'none';
+
+            function getRoomNumber(row) {
+                const roomCell = row.querySelector('td:nth-child(4)');
+                if (!roomCell) return '';
+                const select = roomCell.querySelector('select');
+                if (select) return select.options[select.selectedIndex]?.textContent.trim() || '';
+                const strong = roomCell.querySelector('strong');
+                return strong ? strong.textContent.trim() : '';
+            }
+
+            function createAvailableRoomRow(room) {
+                const row = document.createElement('tr');
+                row.className = 'available-room-row';
+                row.style.background = '#e8f5e9';
+                
+                const typeMap = { family: 'عائلية', single: 'فردية', event: 'مناسبات', double: 'مزدوجة' };
+                const frMap = { family: 'Familiale', single: 'Simple', event: 'Événement', double: 'Double' };
+                const enMap = { family: 'Family', single: 'Single', event: 'Event', double: 'Double' };
+                
+                let roomTypeText = currentLang === 'ar' ? typeMap[room.room_type] :
+                                  currentLang === 'fr' ? frMap[room.room_type] : enMap[room.room_type];
+                
+                const availableText = currentLang === 'ar' ? 'متاحة' : currentLang === 'fr' ? 'Disponible' : 'Available';
+                
+                row.innerHTML = `<td>—</td><td style="color:#28a745;font-weight:bold;">🟢 ${availableText}</td><td>—</td><td><strong>${room.room_number}</strong><br><small style="color:#666;">${roomTypeText}</small></td><td>—</td><td>—</td><td><strong>${room.price_per_night} {{ t.currency }}</strong></td><td><span class="badge-available">${availableText}</span></td><td>—</td>`;
+                return row;
+            }
+
+            function performSearch() {
+                const searchText = searchInput.value.toLowerCase().trim();
+                const searchType = document.querySelector('input[name="searchType"]:checked').value;
+                
+                const showArchive = searchType === 'archive';
+                currentReservations.style.display = showArchive ? 'none' : 'block';
+                archiveReservations.style.display = showArchive ? 'block' : 'none';
+                if (archiveStats) archiveStats.style.display = showArchive ? 'block' : 'none';
+                
+                if (searchText.length === 0) {
+                    if (showArchive) archiveRows.forEach(r => r.style.display = '');
+                    else rows.forEach(r => r.style.display = '');
+                    document.querySelectorAll('.available-room-row').forEach(r => r.remove());
+                    searchStats.style.display = 'none';
+                    return;
+                }
+                
+                if (!showArchive) document.querySelectorAll('.available-room-row').forEach(r => r.remove());
+                
+                let visibleCount = 0;
+                const foundRooms = new Set();
+                
+                if (showArchive) {
+                    archiveRows.forEach(row => {
+                        const name = row.dataset.name || '';
+                        const phone = row.dataset.phone || '';
+                        const status = row.dataset.status || '';
+                        const roomNum = getRoomNumber(row);
+                        row.style.display = (name.includes(searchText) || phone.includes(searchText) || roomNum.includes(searchText) || status.includes(searchText)) ? '' : 'none';
+                        if (row.style.display === '') visibleCount++;
+                    });
+                } else if (searchType === 'all') {
+                    rows.forEach(row => {
+                        const name = row.dataset.name || '';
+                        const phone = row.dataset.phone || '';
+                        const status = row.dataset.status || '';
+                        const roomNum = getRoomNumber(row);
+                        const match = name.includes(searchText) || phone.includes(searchText) || roomNum.includes(searchText) || status.includes(searchText);
+                        row.style.display = match ? '' : 'none';
+                        if (match) { visibleCount++; if (roomNum) foundRooms.add(roomNum); }
+                    });
+                    
+                    if (!isNaN(searchText)) {
+                        try {
+                            const allRooms = JSON.parse('{{ rooms_json|safe }}');
+                            allRooms.filter(r => r.room_number.toString() === searchText && r.is_available).forEach(r => {
+                                if (!foundRooms.has(r.room_number.toString())) {
+                                    document.getElementById('tableBody').appendChild(createAvailableRoomRow(r));
+                                    visibleCount++;
+                                }
+                            });
+                        } catch (e) { console.error("خطأ:", e); }
+                    }
+                } else if (searchType === 'name') {
+                    rows.forEach(row => {
+                        const name = row.dataset.name || '';
+                        row.style.display = name.includes(searchText) ? '' : 'none';
+                        if (row.style.display === '') visibleCount++;
+                    });
+                } else if (searchType === 'phone') {
+                    rows.forEach(row => {
+                        const phone = row.dataset.phone || '';
+                        row.style.display = phone.includes(searchText) ? '' : 'none';
+                        if (row.style.display === '') visibleCount++;
+                    });
+                } else if (searchType === 'room') {
+                    rows.forEach(row => {
+                        const roomNum = getRoomNumber(row);
+                        if (roomNum === searchText) {
+                            row.style.display = '';
+                            visibleCount++;
+                            foundRooms.add(roomNum);
+                        } else row.style.display = 'none';
+                    });
+                    
+                    try {
+                        const allRooms = JSON.parse('{{ rooms_json|safe }}');
+                        allRooms.filter(r => r.room_number.toString() === searchText && r.is_available).forEach(r => {
+                            if (!foundRooms.has(r.room_number.toString())) {
+                                document.getElementById('tableBody').appendChild(createAvailableRoomRow(r));
+                                visibleCount++;
+                            }
+                        });
+                    } catch (e) { console.error("خطأ:", e); }
+                }
+                
+                const noResults = document.getElementById('noResults');
+                if (visibleCount > 0) {
+                    resultCount.textContent = visibleCount;
+                    searchStats.style.display = 'block';
+                    if (noResults) noResults.remove();
+                } else {
+                    resultCount.textContent = '0';
+                    searchStats.style.display = 'block';
+                    if (!noResults) {
+                        const tbody = showArchive ? document.getElementById('archiveBody') : document.getElementById('tableBody');
+                        const nr = document.createElement('tr'); nr.id = 'noResults';
+                        nr.innerHTML = `<td colspan="9" class="text-center no-results"><i class="fas fa-search"></i><h5 style="color:#666;">{{ t.no_results }}</h5></td>`;
+                        tbody.appendChild(nr);
+                    }
+                }
+            }
+
+            window.resetSearch = function() {
+                searchInput.value = '';
+                rows.forEach(r => r.style.display = '');
+                archiveRows.forEach(r => r.style.display = '');
+                document.querySelectorAll('.available-room-row').forEach(r => r.remove());
+                searchStats.style.display = 'none';
+                const nr = document.getElementById('noResults');
+                if (nr) nr.remove();
+            };
+
+            searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') performSearch(); else performSearch(); });
+            searchButton.addEventListener('click', performSearch);
+            document.querySelectorAll('input[name="searchType"]').forEach(r => r.addEventListener('change', function() { searchInput.value = ''; resetSearch(); }));
+            searchInput.addEventListener('input', () => { const nr = document.getElementById('noResults'); if (nr) nr.remove(); });
+        });
     </script>
 </body>
-
 </html>
-
