@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import os
+import json
 from functools import wraps
 
 app = Flask(__name__)
@@ -36,6 +37,25 @@ class Reservation(db.Model):
     status = db.Column(db.String(20), default='pending')
     special_requests = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+# ==================== نموذج أرشيف الحجوزات ====================
+
+class ReservationArchive(db.Model):
+    """نموذج أرشيف الحجوزات (للمغادرين والملغيين فقط)"""
+    id = db.Column(db.Integer, primary_key=True)
+    original_id = db.Column(db.Integer)
+    guest_name = db.Column(db.String(100), nullable=False)
+    guest_phone = db.Column(db.String(20), nullable=False)
+    guest_email = db.Column(db.String(100))
+    room_number = db.Column(db.Integer, nullable=False)
+    room_type = db.Column(db.String(50), nullable=False)
+    check_in_date = db.Column(db.String(50), nullable=False)
+    check_out_date = db.Column(db.String(50), nullable=False)
+    number_of_guests = db.Column(db.Integer, nullable=False)
+    total_price = db.Column(db.Float, nullable=False)
+    status = db.Column(db.String(20), nullable=False)  # 'departed' أو 'cancelled'
+    special_requests = db.Column(db.Text)
+    archived_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 # ==================== إنشاء 200 غرفة ====================
 
@@ -82,6 +102,46 @@ def init_rooms():
         db.session.add_all(rooms)
         db.session.commit()
 
+# ==================== دالة نقل المغادرين للأرشيف ====================
+
+def move_departed_to_archive():
+    """نقل الحجوزات المؤكدة التي انتهت مدتها إلى الأرشيف"""
+    today = datetime.now().strftime('%Y-%m-%d')
+    
+    # الحجوزات المؤكدة التي تاريخ مغادرتها <= اليوم
+    departed_reservations = Reservation.query.filter(
+        Reservation.status == 'confirmed',
+        Reservation.check_out_date <= today
+    ).all()
+    
+    for reservation in departed_reservations:
+        # نقل إلى الأرشيف
+        archive_entry = ReservationArchive(
+            original_id=reservation.id,
+            guest_name=reservation.guest_name,
+            guest_phone=reservation.guest_phone,
+            guest_email=reservation.guest_email,
+            room_number=reservation.room.room_number,
+            room_type=reservation.room.room_type,
+            check_in_date=reservation.check_in_date,
+            check_out_date=reservation.check_out_date,
+            number_of_guests=reservation.number_of_guests,
+            total_price=reservation.total_price,
+            status='departed',  # ✅ غادر
+            special_requests=reservation.special_requests
+        )
+        db.session.add(archive_entry)
+        
+        # جعل الغرفة متاحة مرة أخرى
+        room = Room.query.get(reservation.room_id)
+        if room:
+            room.is_available = True
+        
+        # حذف الحجز الأصلي
+        db.session.delete(reservation)
+    
+    db.session.commit()
+
 # ==================== الترجمات ====================
 
 translations = {
@@ -116,6 +176,7 @@ translations = {
         'pending': 'Pending',
         'confirmed': 'Confirmed',
         'cancelled': 'Cancelled',
+        'departed': 'Departed',
         'confirm': 'Confirm',
         'cancel': 'Cancel',
         'delete': 'Delete',
@@ -154,7 +215,25 @@ translations = {
         'hotel_name': 'Grand Hotel Maroc',
         'invoice': 'Invoice',
         'thank_you': 'Thank you for your trust',
-        'nights': 'nights'
+        'nights': 'nights',
+        'contact': 'Contact for inquiries',
+        'search': 'Search',
+        'search_placeholder': 'Search...',
+        'search_results': 'Search results',
+        'clear_search': 'Clear search',
+        'no_results': 'No results found',
+        'type_at_least_one': 'Type at least one character',
+        'results_found': 'results found',
+        'search_all': 'All',
+        'search_name': 'Name',
+        'search_phone': 'Phone',
+        'search_room': 'Room',
+        'archive': 'Archive',
+        'archive_stats': 'Archive Statistics',
+        'total_archive': 'Total Archive',
+        'departed_count': 'Departed',
+        'cancelled_count': 'Cancelled',
+        'current': 'Current'
     },
     'fr': {
         'title': 'Grand Hôtel Maroc - 200 Chambres',
@@ -187,6 +266,7 @@ translations = {
         'pending': 'En attente',
         'confirmed': 'Confirmé',
         'cancelled': 'Annulé',
+        'departed': 'Parti',
         'confirm': 'Confirmer',
         'cancel': 'Annuler',
         'delete': 'Supprimer',
@@ -225,7 +305,25 @@ translations = {
         'hotel_name': 'Grand Hôtel Maroc',
         'invoice': 'Facture',
         'thank_you': 'Merci de votre confiance',
-        'nights': 'nuits'
+        'nights': 'nuits',
+        'contact': 'Contact pour renseignements',
+        'search': 'Rechercher',
+        'search_placeholder': 'Rechercher...',
+        'search_results': 'Résultats de recherche',
+        'clear_search': 'Effacer la recherche',
+        'no_results': 'Aucun résultat trouvé',
+        'type_at_least_one': 'Tapez au moins un caractère',
+        'results_found': 'résultats trouvés',
+        'search_all': 'Tout',
+        'search_name': 'Nom',
+        'search_phone': 'Téléphone',
+        'search_room': 'Chambre',
+        'archive': 'Archives',
+        'archive_stats': 'Statistiques Archives',
+        'total_archive': 'Total Archives',
+        'departed_count': 'Partis',
+        'cancelled_count': 'Annulés',
+        'current': 'Actuel'
     },
     'ar': {
         'title': 'فندق جراند المغرب - 200 غرفة',
@@ -258,6 +356,7 @@ translations = {
         'pending': 'قيد الانتظار',
         'confirmed': 'مؤكد',
         'cancelled': 'ملغي',
+        'departed': 'غادر',
         'confirm': 'تأكيد',
         'cancel': 'إلغاء',
         'delete': 'حذف',
@@ -296,7 +395,25 @@ translations = {
         'hotel_name': 'فندق جراند المغرب',
         'invoice': 'فاتورة',
         'thank_you': 'شكراً لثقتكم بنا',
-        'nights': 'ليالي'
+        'nights': 'ليالي',
+        'contact': 'للاستفسار والتواصل',
+        'search': 'بحث',
+        'search_placeholder': 'بحث...',
+        'search_results': 'نتائج البحث',
+        'clear_search': 'إلغاء البحث',
+        'no_results': 'لا توجد نتائج',
+        'type_at_least_one': 'اكتب حرفاً واحداً على الأقل للبحث',
+        'results_found': 'نتيجة',
+        'search_all': 'الكل',
+        'search_name': 'اسم',
+        'search_phone': 'هاتف',
+        'search_room': 'غرفة',
+        'archive': 'الأرشيف',
+        'archive_stats': 'إحصائيات الأرشيف',
+        'total_archive': 'إجمالي الأرشيف',
+        'departed_count': 'غادروا',
+        'cancelled_count': 'ملغيون',
+        'current': 'الحالية'
     }
 }
 
@@ -317,7 +434,9 @@ def login_required(f):
 def home():
     lang = session.get('lang', 'ar')
     
-    # إحصائيات الغرف المتاحة فقط (الغير محجوزة)
+    # نقل المغادرين للأرشيف تلقائياً
+    move_departed_to_archive()
+    
     rooms_stats = {
         'family': Room.query.filter_by(room_type='family', is_available=True).count(),
         'single': Room.query.filter_by(room_type='single', is_available=True).count(),
@@ -325,7 +444,7 @@ def home():
         'double': Room.query.filter_by(room_type='double', is_available=True).count()
     }
     
-    # الحجوزات (للمدير فقط)
+    # الحجوزات الحالية (غير المؤرشفة)
     reservations = []
     total_revenue = 0
     occupancy_rate = 0
@@ -336,18 +455,42 @@ def home():
         occupied_rooms = Room.query.filter_by(is_available=False).count()
         occupancy_rate = (occupied_rooms / 200) * 100
     
-    # جميع الغرف مرتبة حسب الرقم
-    rooms = Room.query.order_by(Room.room_number).all()
+    # الحجوزات المؤرشفة (المغادرين + الملغيين)
+    archive_reservations = []
+    archive_stats = {
+        'total': 0,
+        'departed': 0,
+        'cancelled': 0
+    }
     
-    # التاريخ الحالي
+    if session.get('admin_logged_in'):
+        archive_reservations = ReservationArchive.query.order_by(ReservationArchive.archived_at.desc()).all()
+        archive_stats['total'] = len(archive_reservations)
+        archive_stats['departed'] = ReservationArchive.query.filter_by(status='departed').count()
+        archive_stats['cancelled'] = ReservationArchive.query.filter_by(status='cancelled').count()
+    
+    rooms = Room.query.order_by(Room.room_number).all()
     now = datetime.now().strftime('%Y-%m-%d')
+    
+    # تحويل الغرف إلى JSON آمن
+    rooms_json = json.dumps([{
+        'id': r.id,
+        'room_number': r.room_number,
+        'room_type': r.room_type,
+        'capacity': r.capacity,
+        'price_per_night': r.price_per_night,
+        'is_available': r.is_available
+    } for r in rooms])
     
     return render_template('index.html',
                          lang=lang,
                          t=translations[lang],
                          rooms_stats=rooms_stats,
                          reservations=reservations,
+                         archive_reservations=archive_reservations,
+                         archive_stats=archive_stats,
                          rooms=rooms,
+                         rooms_json=rooms_json,
                          total_revenue=total_revenue,
                          occupancy_rate=occupancy_rate,
                          admin_logged_in=session.get('admin_logged_in', False),
@@ -373,12 +516,10 @@ def reserve():
         guests = int(request.form['guests'])
         special_requests = request.form.get('special_requests', '')
         
-        # التحقق من صحة التواريخ
         if check_out <= check_in:
             flash('تاريخ المغادرة يجب أن يكون بعد تاريخ الوصول', 'danger')
             return redirect(url_for('home'))
         
-        # التحقق من عدد الأشخاص حسب نوع الغرفة
         max_guests = {
             'single': 1,
             'double': 2,
@@ -391,7 +532,6 @@ def reserve():
             flash(error_msg, 'danger')
             return redirect(url_for('home'))
         
-        # البحث عن غرفة متاحة من نفس النوع
         available_room = Room.query.filter_by(room_type=room_type, is_available=True).first()
         
         if available_room:
@@ -402,7 +542,6 @@ def reserve():
             if nights > 0:
                 total_price = nights * available_room.price_per_night
                 
-                # إنشاء الحجز بحالة pending والغرفة تبقى متاحة
                 new_reservation = Reservation(
                     guest_name=guest_name,
                     guest_phone=guest_phone,
@@ -469,9 +608,32 @@ def cancel_reservation(id):
     lang = session.get('lang', 'ar')
     reservation = Reservation.query.get_or_404(id)
     
-    reservation.status = 'cancelled'
+    # نقل الحجز الملغي إلى الأرشيف
+    archive_entry = ReservationArchive(
+        original_id=reservation.id,
+        guest_name=reservation.guest_name,
+        guest_phone=reservation.guest_phone,
+        guest_email=reservation.guest_email,
+        room_number=reservation.room.room_number,
+        room_type=reservation.room.room_type,
+        check_in_date=reservation.check_in_date,
+        check_out_date=reservation.check_out_date,
+        number_of_guests=reservation.number_of_guests,
+        total_price=reservation.total_price,
+        status='cancelled',  # ❌ ملغي
+        special_requests=reservation.special_requests
+    )
+    db.session.add(archive_entry)
     
+    # جعل الغرفة متاحة مرة أخرى
+    room = Room.query.get(reservation.room_id)
+    if room:
+        room.is_available = True
+    
+    # حذف الحجز الأصلي
+    db.session.delete(reservation)
     db.session.commit()
+    
     flash(translations[lang]['booking_cancelled'], 'warning')
     return redirect(url_for('home'))
 
@@ -491,6 +653,17 @@ def delete_reservation(id):
     flash(translations[lang]['booking_deleted'], 'info')
     return redirect(url_for('home'))
 
+@app.route('/admin/delete_archive/<int:id>')
+@login_required
+def delete_archive(id):
+    lang = session.get('lang', 'ar')
+    archive_entry = ReservationArchive.query.get_or_404(id)
+    
+    db.session.delete(archive_entry)
+    db.session.commit()
+    flash('تم حذف الحجز من الأرشيف بنجاح', 'info')
+    return redirect(url_for('home'))
+
 @app.route('/admin/change_room/<int:id>', methods=['POST'])
 @login_required
 def change_room(id):
@@ -503,10 +676,8 @@ def change_room(id):
         if new_room and new_room.room_type == reservation.room.room_type:
             old_room_id = reservation.room_id
             
-            # تغيير الغرفة
             reservation.room_id = new_room.id
             
-            # تحديث حالة الغرف
             old_room = Room.query.get(old_room_id)
             if old_room and reservation.status == 'confirmed':
                 old_room.is_available = True
