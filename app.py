@@ -568,6 +568,37 @@ def reserve():
 
 @app.route('/admin/login', methods=['POST'])
 def admin_login():
+    @app.route('/admin/change-password', methods=['POST'])
+@login_required
+def change_password():
+    old = request.form.get('old_password')
+    new = request.form.get('new_password')
+    confirm = request.form.get('confirm_password')
+    
+    if not old or not new or not confirm:
+        flash('جميع الحقول مطلوبة', 'danger')
+        return redirect(url_for('home'))
+    
+    if new != confirm:
+        flash('❌ كلمة المرور غير متطابقة', 'danger')
+        return redirect(url_for('home'))
+    
+    if len(new) < 4:
+        flash('❌ كلمة المرور يجب أن تكون 4 أحرف على الأقل', 'danger')
+        return redirect(url_for('home'))
+    
+    from app import AdminSettings
+    settings = AdminSettings.get()
+    
+    if old != settings.password:
+        flash('❌ كلمة المرور القديمة غير صحيحة', 'danger')
+        return redirect(url_for('home'))
+    
+    settings.password = new
+    db.session.commit()
+    
+    flash('✅ تم تغيير كلمة المرور بنجاح', 'success')
+    return redirect(url_for('home'))
     lang = session.get('lang', 'ar')
     password = request.form['password']
     
@@ -696,3 +727,4 @@ if __name__ == '__main__':
         init_rooms()
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
+
