@@ -38,8 +38,6 @@ class Reservation(db.Model):
     special_requests = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-# ==================== نموذج أرشيف الحجوزات ====================
-
 class ReservationArchive(db.Model):
     """نموذج أرشيف الحجوزات (للمغادرين والملغيين فقط)"""
     id = db.Column(db.Integer, primary_key=True)
@@ -53,9 +51,25 @@ class ReservationArchive(db.Model):
     check_out_date = db.Column(db.String(50), nullable=False)
     number_of_guests = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Float, nullable=False)
-    status = db.Column(db.String(20), nullable=False)  # 'departed' أو 'cancelled'
+    status = db.Column(db.String(20), nullable=False)
     special_requests = db.Column(db.Text)
     archived_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+# ==================== إعدادات المدير (جديد) ====================
+
+class AdminSettings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    password = db.Column(db.String(100), default='admin123')
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    @classmethod
+    def get(cls):
+        settings = cls.query.first()
+        if not settings:
+            settings = cls(password='admin123')
+            db.session.add(settings)
+            db.session.commit()
+        return settings
 
 # ==================== إنشاء 200 غرفة ====================
 
@@ -63,41 +77,14 @@ def init_rooms():
     if Room.query.count() == 0:
         rooms = []
         
-        # 50 غرفة عائلية (4-8 أشخاص) - الأرقام 1-50
         for i in range(1, 51):
-            rooms.append(Room(
-                room_number=i,
-                room_type='family',
-                capacity=8,
-                price_per_night=800.0
-            ))
-        
-        # 50 غرفة فردية (شخص واحد) - الأرقام 51-100
+            rooms.append(Room(room_number=i, room_type='family', capacity=8, price_per_night=800.0))
         for i in range(51, 101):
-            rooms.append(Room(
-                room_number=i,
-                room_type='single',
-                capacity=1,
-                price_per_night=300.0
-            ))
-        
-        # 50 غرفة مناسبات (حتى 20 شخص) - الأرقام 101-150
+            rooms.append(Room(room_number=i, room_type='single', capacity=1, price_per_night=300.0))
         for i in range(101, 151):
-            rooms.append(Room(
-                room_number=i,
-                room_type='event',
-                capacity=20,
-                price_per_night=2000.0
-            ))
-        
-        # 50 غرفة مزدوجة (شخصين) - الأرقام 151-200
+            rooms.append(Room(room_number=i, room_type='event', capacity=20, price_per_night=2000.0))
         for i in range(151, 201):
-            rooms.append(Room(
-                room_number=i,
-                room_type='double',
-                capacity=2,
-                price_per_night=500.0
-            ))
+            rooms.append(Room(room_number=i, room_type='double', capacity=2, price_per_night=500.0))
         
         db.session.add_all(rooms)
         db.session.commit()
@@ -105,17 +92,14 @@ def init_rooms():
 # ==================== دالة نقل المغادرين للأرشيف ====================
 
 def move_departed_to_archive():
-    """نقل الحجوزات المؤكدة التي انتهت مدتها إلى الأرشيف"""
     today = datetime.now().strftime('%Y-%m-%d')
     
-    # الحجوزات المؤكدة التي تاريخ مغادرتها <= اليوم
     departed_reservations = Reservation.query.filter(
         Reservation.status == 'confirmed',
         Reservation.check_out_date <= today
     ).all()
     
     for reservation in departed_reservations:
-        # نقل إلى الأرشيف
         archive_entry = ReservationArchive(
             original_id=reservation.id,
             guest_name=reservation.guest_name,
@@ -127,17 +111,15 @@ def move_departed_to_archive():
             check_out_date=reservation.check_out_date,
             number_of_guests=reservation.number_of_guests,
             total_price=reservation.total_price,
-            status='departed',  # ✅ غادر
+            status='departed',
             special_requests=reservation.special_requests
         )
         db.session.add(archive_entry)
         
-        # جعل الغرفة متاحة مرة أخرى
         room = Room.query.get(reservation.room_id)
         if room:
             room.is_available = True
         
-        # حذف الحجز الأصلي
         db.session.delete(reservation)
     
     db.session.commit()
@@ -233,7 +215,14 @@ translations = {
         'total_archive': 'Total Archive',
         'departed_count': 'Departed',
         'cancelled_count': 'Cancelled',
-        'current': 'Current'
+        'current': 'Current',
+        'change_password': 'Change Password',
+        'old_password': 'Old Password',
+        'new_password': 'New Password',
+        'confirm_password': 'Confirm Password',
+        'password_changed': '✅ Password changed successfully',
+        'password_mismatch': '❌ Passwords do not match',
+        'wrong_old_password': '❌ Old password is incorrect'
     },
     'fr': {
         'title': 'Grand Hôtel Maroc - 200 Chambres',
@@ -323,7 +312,14 @@ translations = {
         'total_archive': 'Total Archives',
         'departed_count': 'Partis',
         'cancelled_count': 'Annulés',
-        'current': 'Actuel'
+        'current': 'Actuel',
+        'change_password': 'Changer mot de passe',
+        'old_password': 'Ancien mot de passe',
+        'new_password': 'Nouveau mot de passe',
+        'confirm_password': 'Confirmer',
+        'password_changed': '✅ Mot de passe changé',
+        'password_mismatch': '❌ Les mots de passe ne correspondent pas',
+        'wrong_old_password': '❌ Ancien mot de passe incorrect'
     },
     'ar': {
         'title': 'فندق جراند المغرب - 200 غرفة',
@@ -413,7 +409,14 @@ translations = {
         'total_archive': 'إجمالي الأرشيف',
         'departed_count': 'غادروا',
         'cancelled_count': 'ملغيون',
-        'current': 'الحالية'
+        'current': 'الحالية',
+        'change_password': 'تغيير كلمة المرور',
+        'old_password': 'كلمة المرور القديمة',
+        'new_password': 'كلمة المرور الجديدة',
+        'confirm_password': 'تأكيد كلمة المرور',
+        'password_changed': '✅ تم تغيير كلمة المرور بنجاح',
+        'password_mismatch': '❌ كلمة المرور غير متطابقة',
+        'wrong_old_password': '❌ كلمة المرور القديمة غير صحيحة'
     }
 }
 
@@ -434,7 +437,6 @@ def login_required(f):
 def home():
     lang = session.get('lang', 'ar')
     
-    # نقل المغادرين للأرشيف تلقائياً
     move_departed_to_archive()
     
     rooms_stats = {
@@ -444,26 +446,17 @@ def home():
         'double': Room.query.filter_by(room_type='double', is_available=True).count()
     }
     
-    # الحجوزات الحالية (غير المؤرشفة)
     reservations = []
     total_revenue = 0
     occupancy_rate = 0
+    archive_reservations = []
+    archive_stats = {'total': 0, 'departed': 0, 'cancelled': 0}
     
     if session.get('admin_logged_in'):
         reservations = Reservation.query.order_by(Reservation.created_at.desc()).all()
         total_revenue = db.session.query(db.func.sum(Reservation.total_price)).filter(Reservation.status == 'confirmed').scalar() or 0
         occupied_rooms = Room.query.filter_by(is_available=False).count()
         occupancy_rate = (occupied_rooms / 200) * 100
-    
-    # الحجوزات المؤرشفة (المغادرين + الملغيين)
-    archive_reservations = []
-    archive_stats = {
-        'total': 0,
-        'departed': 0,
-        'cancelled': 0
-    }
-    
-    if session.get('admin_logged_in'):
         archive_reservations = ReservationArchive.query.order_by(ReservationArchive.archived_at.desc()).all()
         archive_stats['total'] = len(archive_reservations)
         archive_stats['departed'] = ReservationArchive.query.filter_by(status='departed').count()
@@ -472,7 +465,6 @@ def home():
     rooms = Room.query.order_by(Room.room_number).all()
     now = datetime.now().strftime('%Y-%m-%d')
     
-    # تحويل الغرف إلى JSON آمن
     rooms_json = json.dumps([{
         'id': r.id,
         'room_number': r.room_number,
@@ -506,65 +498,65 @@ def set_language(lang):
 def reserve():
     lang = session.get('lang', 'ar')
     
-    if request.method == 'POST':
-        guest_name = request.form['name']
-        guest_phone = request.form['phone']
-        guest_email = request.form.get('email', '')
-        room_type = request.form['room']
-        check_in = request.form['check_in']
-        check_out = request.form['check_out']
-        guests = int(request.form['guests'])
-        special_requests = request.form.get('special_requests', '')
+    guest_name = request.form['name']
+    guest_phone = request.form['phone']
+    guest_email = request.form.get('email', '')
+    room_type = request.form['room']
+    check_in = request.form['check_in']
+    check_out = request.form['check_out']
+    guests = int(request.form['guests'])
+    special_requests = request.form.get('special_requests', '')
+    
+    if check_out <= check_in:
+        flash('تاريخ المغادرة يجب أن يكون بعد تاريخ الوصول', 'danger')
+        return redirect(url_for('home'))
+    
+    max_guests = {
+        'single': 1,
+        'double': 2,
+        'family': 8,
+        'event': 20
+    }.get(room_type, 0)
+    
+    if guests > max_guests:
+        error_msg = translations[lang]['max_guests_error'].format(max=max_guests)
+        flash(error_msg, 'danger')
+        return redirect(url_for('home'))
+    
+    available_room = Room.query.filter_by(room_type=room_type, is_available=True).first()
+    
+    if available_room:
+        check_in_date = datetime.strptime(check_in, '%Y-%m-%d')
+        check_out_date = datetime.strptime(check_out, '%Y-%m-%d')
+        nights = (check_out_date - check_in_date).days
         
-        if check_out <= check_in:
-            flash('تاريخ المغادرة يجب أن يكون بعد تاريخ الوصول', 'danger')
-            return redirect(url_for('home'))
-        
-        max_guests = {
-            'single': 1,
-            'double': 2,
-            'family': 8,
-            'event': 20
-        }.get(room_type, 0)
-        
-        if guests > max_guests:
-            error_msg = translations[lang]['max_guests_error'].format(max=max_guests)
-            flash(error_msg, 'danger')
-            return redirect(url_for('home'))
-        
-        available_room = Room.query.filter_by(room_type=room_type, is_available=True).first()
-        
-        if available_room:
-            check_in_date = datetime.strptime(check_in, '%Y-%m-%d')
-            check_out_date = datetime.strptime(check_out, '%Y-%m-%d')
-            nights = (check_out_date - check_in_date).days
+        if nights > 0:
+            total_price = nights * available_room.price_per_night
             
-            if nights > 0:
-                total_price = nights * available_room.price_per_night
-                
-                new_reservation = Reservation(
-                    guest_name=guest_name,
-                    guest_phone=guest_phone,
-                    guest_email=guest_email,
-                    room_id=available_room.id,
-                    check_in_date=check_in,
-                    check_out_date=check_out,
-                    number_of_guests=guests,
-                    total_price=total_price,
-                    special_requests=special_requests,
-                    status='pending'
-                )
-                
-                db.session.add(new_reservation)
-                db.session.commit()
-                
-                flash(translations[lang]['booking_success'], 'success')
-            else:
-                flash('يجب أن تكون مدة الإقامة يوم على الأقل', 'danger')
+            new_reservation = Reservation(
+                guest_name=guest_name,
+                guest_phone=guest_phone,
+                guest_email=guest_email,
+                room_id=available_room.id,
+                check_in_date=check_in,
+                check_out_date=check_out,
+                number_of_guests=guests,
+                total_price=total_price,
+                special_requests=special_requests,
+                status='pending'
+            )
+            
+            db.session.add(new_reservation)
+            db.session.commit()
+            
+            flash(translations[lang]['booking_success'], 'success')
         else:
-            flash('عذراً، لا توجد غرف متاحة من هذا النوع', 'danger')
+            flash('يجب أن تكون مدة الإقامة يوم على الأقل', 'danger')
+    else:
+        flash('عذراً، لا توجد غرف متاحة من هذا النوع', 'danger')
     
     return redirect(url_for('home'))
+
 @app.route('/admin/login', methods=['POST'])
 def admin_login():
     lang = session.get('lang', 'ar')
@@ -581,9 +573,10 @@ def admin_login():
     
     return redirect(url_for('home'))
 
-    @app.route('/admin/change-password', methods=['POST'])
+@app.route('/admin/change-password', methods=['POST'])
 @login_required
 def change_password():
+    lang = session.get('lang', 'ar')
     old = request.form.get('old_password')
     new = request.form.get('new_password')
     confirm = request.form.get('confirm_password')
@@ -593,34 +586,22 @@ def change_password():
         return redirect(url_for('home'))
     
     if new != confirm:
-        flash('❌ كلمة المرور غير متطابقة', 'danger')
+        flash(translations[lang]['password_mismatch'], 'danger')
         return redirect(url_for('home'))
     
     if len(new) < 4:
-        flash('❌ كلمة المرور يجب أن تكون 4 أحرف على الأقل', 'danger')
+        flash('كلمة المرور يجب أن تكون 4 أحرف على الأقل', 'danger')
         return redirect(url_for('home'))
     
     settings = AdminSettings.get()
     if old != settings.password:
-        flash('❌ كلمة المرور القديمة غير صحيحة', 'danger')
+        flash(translations[lang]['wrong_old_password'], 'danger')
         return redirect(url_for('home'))
     
     settings.password = new
     db.session.commit()
     
-    flash('✅ تم تغيير كلمة المرور بنجاح', 'success')
-    return redirect(url_for('home'))
-
-    lang = session.get('lang', 'ar')
-    password = request.form['password']
-    
-    if password == translations[lang]['admin_password']:
-        session['admin_logged_in'] = True
-        session.permanent = True
-        flash('مرحباً بك يا مدير', 'success')
-    else:
-        flash(translations[lang]['wrong_password'], 'danger')
-    
+    flash(translations[lang]['password_changed'], 'success')
     return redirect(url_for('home'))
 
 @app.route('/admin/logout')
@@ -651,7 +632,6 @@ def cancel_reservation(id):
     lang = session.get('lang', 'ar')
     reservation = Reservation.query.get_or_404(id)
     
-    # نقل الحجز الملغي إلى الأرشيف
     archive_entry = ReservationArchive(
         original_id=reservation.id,
         guest_name=reservation.guest_name,
@@ -663,17 +643,15 @@ def cancel_reservation(id):
         check_out_date=reservation.check_out_date,
         number_of_guests=reservation.number_of_guests,
         total_price=reservation.total_price,
-        status='cancelled',  # ❌ ملغي
+        status='cancelled',
         special_requests=reservation.special_requests
     )
     db.session.add(archive_entry)
     
-    # جعل الغرفة متاحة مرة أخرى
     room = Room.query.get(reservation.room_id)
     if room:
         room.is_available = True
     
-    # حذف الحجز الأصلي
     db.session.delete(reservation)
     db.session.commit()
     
@@ -699,9 +677,7 @@ def delete_reservation(id):
 @app.route('/admin/delete_archive/<int:id>')
 @login_required
 def delete_archive(id):
-    lang = session.get('lang', 'ar')
     archive_entry = ReservationArchive.query.get_or_404(id)
-    
     db.session.delete(archive_entry)
     db.session.commit()
     flash('تم حذف الحجز من الأرشيف بنجاح', 'info')
@@ -737,7 +713,6 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         init_rooms()
+        AdminSettings.get()  # تأكد من وجود إعدادات المدير
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
-
-
