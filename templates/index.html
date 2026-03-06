@@ -1054,6 +1054,21 @@
         <!-- لوحة الإدارة -->
         {% if admin_logged_in %}
         <div class="admin-panel">
+<!-- أزرار الإجراءات - تصميم دائري -->
+<div class="d-flex justify-content-end gap-3 mb-4">
+    <!-- زر تسجيل الخروج - دائري أحمر -->
+    <a href="/admin/logout" class="btn btn-danger rounded-pill px-4 py-2 shadow-sm" 
+       style="border-radius: 50px !important; font-weight: 500;">
+        <i class="fas fa-sign-out-alt me-2"></i>تسجيل خروج
+    </a>
+    
+    <!-- زر تغيير كلمة المرور - دائري أصفر -->
+    <button class="btn btn-warning rounded-pill px-4 py-2 shadow-sm" 
+            style="border-radius: 50px !important; font-weight: 500;"
+            data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+        <i class="fas fa-key me-2"></i>تغيير كلمة المرور
+    </button>
+</div>
             <div class="admin-header">
                 <h3 style="color: var(--primary-color);">
                     <i class="fas fa-crown me-2" style="color: #ffc107;"></i>{{ t.admin_panel }}
@@ -1254,7 +1269,59 @@
             </div>
         </div>
     </div>
+<!-- مودال تغيير كلمة المرور -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #ffc107;">
+                <h5 class="modal-title">
+                    <i class="fas fa-key me-2"></i>
+                    تغيير كلمة المرور
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/admin/change-password" method="post" id="changePasswordForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">كلمة المرور القديمة</label>
+                        <input type="password" name="old_password" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">كلمة المرور الجديدة</label>
+                        <input type="password" name="new_password" id="new_password" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">تأكيد كلمة المرور</label>
+                        <input type="password" name="confirm_password" id="confirm_password" class="form-control" required>
+                    </div>
+                    <div class="alert alert-danger d-none" id="passwordError"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-warning">تغيير</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+<script>
+document.getElementById('changePasswordForm')?.addEventListener('submit', function(e) {
+    const newPass = document.getElementById('new_password').value;
+    const confirmPass = document.getElementById('confirm_password').value;
+    const errorDiv = document.getElementById('passwordError');
+    
+    if (newPass !== confirmPass) {
+        e.preventDefault();
+        errorDiv.classList.remove('d-none');
+        errorDiv.innerText = '❌ كلمة المرور غير متطابقة';
+    } else if (newPass.length < 4) {
+        e.preventDefault();
+        errorDiv.classList.remove('d-none');
+        errorDiv.innerText = '❌ كلمة المرور يجب أن تكون 4 أحرف على الأقل';
+    }
+});
+</script>
     <!-- عنصر الطباعة المخفي -->
     <div id="invoice-print" style="display: none;"></div>
 
@@ -1497,3 +1564,4 @@
     </script>
 </body>
 </html>
+
