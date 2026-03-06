@@ -565,9 +565,22 @@ def reserve():
             flash('عذراً، لا توجد غرف متاحة من هذا النوع', 'danger')
     
     return redirect(url_for('home'))
-
 @app.route('/admin/login', methods=['POST'])
 def admin_login():
+    lang = session.get('lang', 'ar')
+    password = request.form['password']
+    
+    settings = AdminSettings.get()
+    
+    if password == settings.password:
+        session['admin_logged_in'] = True
+        session.permanent = True
+        flash('مرحباً بك يا مدير', 'success')
+    else:
+        flash(translations[lang]['wrong_password'], 'danger')
+    
+    return redirect(url_for('home'))
+
     @app.route('/admin/change-password', methods=['POST'])
 @login_required
 def change_password():
@@ -587,9 +600,7 @@ def change_password():
         flash('❌ كلمة المرور يجب أن تكون 4 أحرف على الأقل', 'danger')
         return redirect(url_for('home'))
     
-    from app import AdminSettings
     settings = AdminSettings.get()
-    
     if old != settings.password:
         flash('❌ كلمة المرور القديمة غير صحيحة', 'danger')
         return redirect(url_for('home'))
@@ -599,6 +610,7 @@ def change_password():
     
     flash('✅ تم تغيير كلمة المرور بنجاح', 'success')
     return redirect(url_for('home'))
+
     lang = session.get('lang', 'ar')
     password = request.form['password']
     
@@ -727,4 +739,5 @@ if __name__ == '__main__':
         init_rooms()
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
+
 
